@@ -1,38 +1,47 @@
-// Задача 4-4
-// this в методах объекта
-// Расставь отсутствующие this в методах объекта account.
+// Задача 5-4
+// переиспользование методов класса
+// Напиши класс StringBuilder. На вход он получает один параметр - строку, которую записывает в свойство _value.
 
-// В комментариях показаны операции с объектом и ожидаемые результаты.
+// Добавь классу следующий функционал:
 
-const account = {
-  owner: 'Mango',
-  balance: 24000,
-  discount: 0.1,
-  orders: ['order-1', 'order-2', 'order-3'],
-  changeDiscount(value) {
-    this.discount = value; // Write code in this line
-  },
-  showOrders() {
-    return this.orders; // Write code in this line
-  },
-  addOrder(cost, order) {
-    this.balance -= cost; // Write code in this line
-    this.orders.push(order); // Write code in this line
-  },
+// Геттер value - возвращает текущее значение поля _value
+// Метод append(str) - получает параметр str (строку) и добавляет ее в конец _value
+// Метод prepend(str) - получает параметр str (строку) и добавляет ее в начало value
+// Метод pad(str) - получает параметр str (строку) и добавляет ее в начало и в конец _value
+// Метод pad должен использовать методы append и prepend
+
+// Write code under this line
+class StringBuilder {
+  constructor(value) {
+    this._value = value;
+  };
+  get value() {
+    return this._value;
+  };
+
+  append = function (str) { 
+  return this._value += str;
+  };
+
+  prepend = function (str) {
+    return this._value = str + this._value;
+  };
+  pad = function (str) { 
+  return this.prepend(str) + this.append(str);
+  };
 };
-const copyAccount =  Object.assign({},account);
-copyAccount.orders = [...account.orders];
-// копируем для автотестов ссылочные типы
+
+console.log(typeof StringBuilder);
+// 'function'
 
 
-account.changeDiscount(0.15);
-console.log(account.discount); // 0.15
+const builder = new StringBuilder('.');
 
-console.log(account.showOrders()); 
-// ['order-1', 'order-2', 'order-3']
+builder.append('^');
+console.log(builder.value); // '.^'
 
-account.addOrder(5000, 'order-4');
-console.log(account.balance); // 19000
+builder.prepend('^');
+console.log(builder.value); // '^.^'
 
-console.log(account.showOrders());
-// ['order-1', 'order-2', 'order-3', 'order-4']
+builder.pad('=');
+console.log(builder.value); // '=^.^='
